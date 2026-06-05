@@ -3,7 +3,12 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { Link } from "react-router-dom";
 
-const navLinks = ["home", "about", "services", "products"];
+const navLinks = [
+  { name: "Home", path: "/" },
+  { name: "About", path: "/about" },
+  { name: "Services", path: "/services" },
+  { name: "Products", path: "/products" },
+];
 
 export default function Nav() {
   const [isOpen, setIsOpen] = useState(false);
@@ -71,35 +76,34 @@ export default function Nav() {
 
           {/* Desktop Nav */}
           <motion.nav
-            variants={container}
-            initial="hidden"
-            animate="show"
-            className="hidden md:flex items-center gap-10"
-          >
-            {navLinks.map((link) => (
-             <Link to={`/${link}`}> <motion.button
-                key={link}
-                variants={item}
-                onClick={() => setActive(link)}
-                
-                whileHover={{ y: -3, scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="group font-Cinzel relative text-gray-300 hover:text-cyan-400 transition-colors duration-300 font-medium"
-              >
-                {link}
+  variants={container}
+  initial="hidden"
+  animate="show"
+  className="hidden md:flex items-center gap-10"
+>
+  {navLinks.map((link) => (
+    <Link key={link.name} to={link.path}>
+      <motion.button
+        variants={item}
+        onClick={() => setActive(link.name)}
+        whileHover={{ y: -3, scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        className="group font-Cinzel relative text-gray-300 hover:text-cyan-400 transition-colors duration-300 font-medium"
+      >
+        {link.name}
 
-                <span className="absolute left-0 -bottom-2 h-[2px] w-0 bg-cyan-400 shadow-[0_0_15px_#22d3ee] transition-all duration-300 group-hover:w-full" />
+        <span className="absolute left-0 -bottom-2 h-[2px] w-0 bg-cyan-400 shadow-[0_0_15px_#22d3ee] transition-all duration-300 group-hover:w-full" />
 
-                {active === link && (
-                  <motion.div
-                    layoutId="activeNav"
-                    className="absolute left-0 -bottom-2 h-[2px] w-full bg-cyan-400 shadow-[0_0_18px_#22d3ee]"
-                  />
-                )}
-              </motion.button>
-              </Link>
-            ))}
-          </motion.nav>
+        {active === link.name && (
+          <motion.div
+            layoutId="activeNav"
+            className="absolute left-0 -bottom-2 h-[2px] w-full bg-cyan-400 shadow-[0_0_18px_#22d3ee]"
+          />
+        )}
+      </motion.button>
+    </Link>
+  ))}
+</motion.nav>
 
           {/* CTA */}
           <div className="hidden md:block">
@@ -142,23 +146,27 @@ export default function Nav() {
                 className="flex flex-col p-6"
               >
                 {navLinks.map((link) => (
-                  <motion.button
-                    key={link}
-                    variants={item}
-                    onClick={() => {
-                      setActive(link);
-                      setIsOpen(false);
-                    }}
-                    whileHover={{ x: 10 }}
-                    className={`text-left py-4 text-lg transition-all font-Cinzel ${
-                      active === link
-                        ? "text-cyan-400"
-                        : "text-gray-300 hover:text-cyan-400"
-                    }`}
-                  >
-                    {link}
-                  </motion.button>
-                ))}
+  <Link
+    key={link.name}
+    to={link.path}
+    onClick={() => {
+      setActive(link.name);
+      setIsOpen(false);
+    }}
+  >
+    <motion.div
+      variants={item}
+      whileHover={{ x: 10 }}
+      className={`py-4 text-lg transition-all font-Cinzel ${
+        active === link.name
+          ? "text-cyan-400"
+          : "text-gray-300 hover:text-cyan-400"
+      }`}
+    >
+      {link.name}
+    </motion.div>
+  </Link>
+))}
 
                 <motion.button
                   whileHover={{
