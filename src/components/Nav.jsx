@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
+import { Link } from "react-router-dom";
 
-const navLinks = ["Home", "About", "Services", "Products"];
+const navLinks = ["home", "about", "services", "products"];
 
 export default function Nav() {
   const [isOpen, setIsOpen] = useState(false);
@@ -76,10 +77,11 @@ export default function Nav() {
             className="hidden md:flex items-center gap-10"
           >
             {navLinks.map((link) => (
-              <motion.button
+             <Link to={`/${link}`}> <motion.button
                 key={link}
                 variants={item}
                 onClick={() => setActive(link)}
+                
                 whileHover={{ y: -3, scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 className="group font-Cinzel relative text-gray-300 hover:text-cyan-400 transition-colors duration-300 font-medium"
@@ -95,6 +97,7 @@ export default function Nav() {
                   />
                 )}
               </motion.button>
+              </Link>
             ))}
           </motion.nav>
 
